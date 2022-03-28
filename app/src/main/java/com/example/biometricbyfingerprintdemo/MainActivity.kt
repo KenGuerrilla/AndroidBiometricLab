@@ -1,8 +1,12 @@
 package com.example.biometricbyfingerprintdemo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.viewModels
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import com.example.biometricbyfingerprintdemo.databinding.ActivityMainBinding
 
 /**
@@ -37,15 +41,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         binding.btLogin.setOnClickListener {
-            viewModel.startAuth(this)
+            viewModel.startAuth(this) {
+                binding.tvStatus.text = it
+            }
         }
 
         binding.btLogout.setOnClickListener {
-
+            binding.tvStatus.text = "尚未驗證"
         }
 
         binding.tvStatus.setOnClickListener {
-            viewModel.checkBiometricState(this)
+            viewModel.checkBiometricState(this) { resp ->
+                binding.tvStatus.text = resp.message
+
+                if (resp.isNoneEnrolled) {
+//                    startToSetBiometric()
+                }
+            }
         }
+    }
+
+    private fun startToSetBiometric() {
+        val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+            putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
+        }
+//        registerForActivityResult()
+        // Deprecated
+//        startActivityForResult(enrollIntent, 1000)
     }
 }
