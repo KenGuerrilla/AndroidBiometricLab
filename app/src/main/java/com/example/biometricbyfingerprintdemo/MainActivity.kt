@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getEncryptText(): String {
-        return binding.tvEncryptOutput.toString()
+        return binding.tvEncryptOutput.text.toString()
     }
 
     private fun startToSetBiometric() {
