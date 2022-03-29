@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.biometricbyfingerprintdemo.biometric.BiometricSettingInfo
 import com.example.biometricbyfingerprintdemo.biometric.BiometricStatusResp
 import com.example.biometricbyfingerprintdemo.biometric.BiometricTools
+import com.example.biometricbyfingerprintdemo.cryptography.CryptographicTools
 
 class MainViewModel: ViewModel() {
 
@@ -15,12 +16,14 @@ class MainViewModel: ViewModel() {
 
     private val biometricTools = BiometricTools(getBiometricSettingInfo())
 
-    private fun getBiometricSettingInfo(): BiometricSettingInfo {
-        return BiometricSettingInfo(
-            "使用生物辨識登入",
-            "使用生物辨識登入App取得資訊",
-            "取消"
-        )
+    private val cryptographicTools = CryptographicTools()
+
+    fun encryptMessage(msg: String): String {
+        return cryptographicTools.encryptMessage(msg)
+    }
+
+    fun decryptMessage(decryptMsg: String): String {
+        return cryptographicTools.decryptMessage(decryptMsg)
     }
 
     fun startAuth(fragmentActivity: FragmentActivity, authCallback:(String) -> Unit) {
@@ -47,6 +50,14 @@ class MainViewModel: ViewModel() {
 
     fun checkBiometricState(context: Context, callback:(BiometricStatusResp) -> Unit) {
         biometricTools.checkBiometricStatus(context, callback)
+    }
+
+    private fun getBiometricSettingInfo(): BiometricSettingInfo {
+        return BiometricSettingInfo(
+            "使用生物辨識登入",
+            "使用生物辨識登入App取得資訊",
+            "取消"
+        )
     }
 
 }

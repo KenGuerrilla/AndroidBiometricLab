@@ -6,44 +6,110 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/etInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:maxLines="1"
+        android:inputType="textPersonName"
+        android:hint="輸入需要加密的文字"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btEncrypt"/>
+
+    <Button
+        android:id="@+id/btEncrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加密"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tvEncryptOutput"
+        app:layout_constraintTop_toBottomOf="@+id/etInput"
+        tools:layout_editor_absoluteX="161dp" />
+
+    <TextView
+        android:id="@+id/tvEncryptOutput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="------"
+        app:layout_constraintTop_toBottomOf="@id/btEncrypt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btDecrypt"
+        />
+
+    <Button
+        android:id="@+id/btDecrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="解密"
+        app:layout_constraintTop_toBottomOf="@id/tvEncryptOutput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvDecryptOutput"
+        />
+
+    <TextView
+        android:id="@+id/tvDecryptOutput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="------"
+        app:layout_constraintTop_toBottomOf="@id/btDecrypt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/glCenter"
+        />
+
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"/>
 
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="32dp"
         android:text="Please Login"
         android:textSize="32sp"
-        android:layout_marginVertical="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btLogin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@+id/glCenter"
         tools:layout_editor_absoluteX="114dp" />
 
     <Button
         android:id="@+id/btLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="Login"
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btLogout"
-        app:layout_constraintTop_toBottomOf="@+id/tvStatus"
-        tools:layout_editor_absoluteX="161dp" />
+        app:layout_constraintTop_toBottomOf="@id/tvStatus" />
 
     <Button
         android:id="@+id/btLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
         android:text="Logout"
         android:textAllCaps="false"
-        android:layout_marginVertical="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btLogin"
-        tools:layout_editor_absoluteX="161dp" />
+        app:layout_constraintTop_toBottomOf="@id/btLogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
