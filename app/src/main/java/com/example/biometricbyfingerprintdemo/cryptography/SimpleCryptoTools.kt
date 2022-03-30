@@ -17,21 +17,17 @@ import javax.crypto.spec.IvParameterSpec
  *      https://developer.android.com/guide/topics/security/cryptography#read-file
  */
 
-class CryptographicTools {
+class SimpleCryptoTools {
 
     companion object {
         private val TAG = "CryptographicTools"
     }
 
     private val keyStoreProvider = "AndroidKeyStore"
-    private val bioKeyName = "BioAndroidLabKT"
+    private val keyName = "SimpleCryptoTools"
 
     // 每次Cipher加密後產生的iv需要存下來供後續解密使用
     private var ivByteArray: ByteArray? = null
-
-    init {
-        generateKey()
-    }
 
     // 列出目前的KeyAlias
     private fun printKeyAliases() {
@@ -70,7 +66,6 @@ class CryptographicTools {
 
     // 產生Key
     private fun generateKey() {
-        if (isKeyExist()) return // 如果存在則返回
         val keyGenerator = KeyGenerator.getInstance(
             // 產生後的Key會直接存入AndroidKeyStore
             KeyProperties.KEY_ALGORITHM_AES, keyStoreProvider
@@ -82,7 +77,7 @@ class CryptographicTools {
     // Key的相關設定
     private fun getKeyGenParameterSpec(): KeyGenParameterSpec {
         return KeyGenParameterSpec.Builder(
-            bioKeyName,
+            keyName,
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
         )
             .setKeySize(256)
@@ -93,7 +88,7 @@ class CryptographicTools {
 
     // 檢查該Key是否存在
     private fun isKeyExist(): Boolean {
-        return getKeyStoreInst().isKeyEntry(bioKeyName)
+        return getKeyStoreInst().isKeyEntry(keyName)
     }
 
     // 取得KeyStore實例
@@ -105,7 +100,10 @@ class CryptographicTools {
 
     // 取得SecretKey
     private fun getSecretKey(): SecretKey {
-        return getKeyStoreInst().getKey(bioKeyName, null) as SecretKey
+        if (!isKeyExist()) {
+            generateKey()
+        }
+        return getKeyStoreInst().getKey(keyName, null) as SecretKey
     }
 
     // 取得Cipher實例
