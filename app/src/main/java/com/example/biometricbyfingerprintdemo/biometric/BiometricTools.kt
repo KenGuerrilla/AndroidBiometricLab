@@ -2,7 +2,6 @@ package com.example.biometricbyfingerprintdemo.biometric
 
 import android.content.Context
 import android.util.Base64
-import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
@@ -141,27 +140,6 @@ class BiometricTools(
             .setNegativeButtonText(settingInfo.negativeButtonText)
             .setAllowedAuthenticators(BIOMETRIC_STRONG)
             .build()
-    }
-
-    // 檢查目前生物辨識狀態
-    fun checkBiometricStatus(context: Context, callback:(BiometricStatusResp) -> Unit) {
-        val biometricManager = BiometricManager.from(context)
-        when(biometricManager.canAuthenticate(BIOMETRIC_STRONG)) {
-            BiometricManager.BIOMETRIC_SUCCESS -> {
-                callback(BiometricStatusResp("裝置可執行生物辨識", false))
-            }
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                callback(BiometricStatusResp("裝置不支援生物辨識", false))
-            }
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                callback(BiometricStatusResp("裝置目前不支援生物辨識", false))
-            }
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                callback(BiometricStatusResp("裝置尚未設定生物辨識功能", true))
-            }
-            else ->
-                callback(BiometricStatusResp("未定義錯誤", false))
-        }
     }
 
 }

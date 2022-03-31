@@ -1,31 +1,17 @@
-package com.example.biometricbyfingerprintdemo
+package com.example.biometricbyfingerprintdemo.viewmodel
 
 import android.content.Context
+import androidx.biometric.BiometricManager
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.example.biometricbyfingerprintdemo.biometric.*
-import com.example.biometricbyfingerprintdemo.cryptography.SimpleCryptoTools
 
-class MainViewModel: ViewModel() {
-
-    companion object {
-        private val TAG = "MainViewModel"
-    }
+class BiometricsViewModel: ViewModel() {
 
     private val biometricTools = BiometricTools(
         getBiometricSettingInfo(),
         BiometricCryptoTools()
     )
-
-    private val cryptographicTools = SimpleCryptoTools()
-
-    fun encryptMessage(msg: String): String {
-        return cryptographicTools.encryptMessage(msg)
-    }
-
-    fun decryptMessage(decryptMsg: String): String {
-        return cryptographicTools.decryptMessage(decryptMsg)
-    }
 
     fun startEncryptAuth(
         message: String,
@@ -81,33 +67,24 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun startAuth(
-        fragmentActivity: FragmentActivity,
-        authCallback:(String) -> Unit
-    ) {
-        biometricTools.startAuth(fragmentActivity) { resp ->
-            when(resp.resultCode) {
-                BiometricTools.RESULT_AUTH_SUCCESS -> {
-                    authCallback("驗證成功")
-                }
-                BiometricTools.RESULT_AUTH_FAULT -> {
-                    authCallback("驗證失敗")
-                }
-                BiometricTools.RESULT_AUTH_CANCEL -> {
-                    authCallback("驗證取消")
-                }
-                BiometricTools.RESULT_AUTH_CLICK_NEGATIVE -> {
-                    authCallback("點擊取消鈕")
-                }
-                else -> {
-                    authCallback(resp.message)
-                }
+    fun checkBiometricState(context: Context, callback: BiometricsStateCallback) {
+        val biometricManager = BiometricManager.from(context)
+        when(biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                callback.onSuccess()
             }
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                callback.onUnavailable("裝置不支援生物辨識")
+            }
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                callback.onUnavailable("裝置目前不支援生物辨識")
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                callback.onNoneEnrolled()
+            }
+            else ->
+                callback.onUnknownState()
         }
-    }
-
-    fun checkBiometricState(context: Context, callback:(BiometricStatusResp) -> Unit) {
-        biometricTools.checkBiometricStatus(context, callback)
     }
 
     private fun getBiometricSettingInfo(): BiometricSettingInfo {

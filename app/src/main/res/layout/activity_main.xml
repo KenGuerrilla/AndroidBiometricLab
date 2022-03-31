@@ -6,127 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:hint="輸入需要加密的文字"
-        android:inputType="text"
-        android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@id/btEncrypt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/btEncrypt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="加密"
-        app:layout_constraintBottom_toTopOf="@+id/tvEncryptOutput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etInput"
-        tools:layout_editor_absoluteX="161dp" />
-
-    <TextView
-        android:id="@+id/tvEncryptOutput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="------"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/btDecrypt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btEncrypt" />
-
-    <Button
-        android:id="@+id/btDecrypt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="解密"
-        app:layout_constraintBottom_toTopOf="@id/tvDecryptOutput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEncryptOutput" />
-
-    <TextView
-        android:id="@+id/tvDecryptOutput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="------"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/glCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btDecrypt" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glCenter"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <EditText
-        android:id="@+id/tvBioEncryptInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:hint="請輸入需要加密的文字"
-        android:inputType="text"
-        android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@id/btEncryptWithBio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/glCenter" />
-
-    <Button
-        android:id="@+id/btEncryptWithBio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="使用生物辨識認證加密"
-        android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/tvBioEncryptInput"
-        app:layout_constraintBottom_toTopOf="@id/tvBioEncryptOutput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/tvBioEncryptOutput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="------"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/btEncryptWithBio"
-        app:layout_constraintBottom_toTopOf="@id/btDecryptWithBio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btDecryptWithBio"
+        android:id="@+id/btGotoSimpleCryptoActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
-        android:text="使用生物辨識認證解密"
-        android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/tvBioEncryptOutput"
-        app:layout_constraintBottom_toTopOf="@id/tvBioDecryptOutput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:text="簡易加解密"
 
-    <TextView
-        android:id="@+id/tvBioDecryptOutput"
+        app:layout_constraintBottom_toTopOf="@+id/btGotoBiometricsActivity"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btGotoBiometricsActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="------"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/btDecryptWithBio"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginVertical="16dp"
+        android:text="生物辨識"
+        app:layout_constraintBottom_toTopOf="@+id/btGotoRegisterActivity"
+        app:layout_constraintTop_toBottomOf="@+id/btGotoSimpleCryptoActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btGotoRegisterActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:text="RegisterResult測試"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btGotoBiometricsActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

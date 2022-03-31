@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BiometricByFingerprintDemo">
         <activity
+            android:name=".RegisterResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BiometricsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SimpleCryptoActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

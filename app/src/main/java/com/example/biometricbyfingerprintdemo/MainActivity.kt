@@ -3,11 +3,11 @@ package com.example.biometricbyfingerprintdemo
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import com.example.biometricbyfingerprintdemo.databinding.ActivityMainBinding
+import com.example.biometricbyfingerprintdemo.viewmodel.MainViewModel
 
 /**
  *
@@ -41,52 +41,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
 
-        binding.btEncrypt.setOnClickListener {
-            val msg = getInputText()
-            binding.tvEncryptOutput.text = viewModel.encryptMessage(msg)
+        binding.btGotoSimpleCryptoActivity.setOnClickListener {
+            val intent = Intent(this, SimpleCryptoActivity::class.java)
+            startActivity(intent)
         }
 
-        binding.btDecrypt.setOnClickListener {
-            val encryptMsg = getEncryptText()
-            binding.tvDecryptOutput.text = viewModel.decryptMessage(encryptMsg)
+        binding.btGotoBiometricsActivity.setOnClickListener {
+            val intent = Intent(this, BiometricsActivity::class.java)
+            startActivity(intent)
         }
 
-        binding.btEncryptWithBio.setOnClickListener {
-            viewModel.startEncryptAuth(getBioInputText(), this) {
-                binding.tvBioEncryptOutput.text = it
+        binding.btGotoRegisterActivity.setOnClickListener {
+            // 可使用Settings丟入Intent導入指定的設定頁面
+            val intent = Intent(this@MainActivity, RegisterResultActivity::class.java)
+            getContent.launch(intent)
+        }
+
+    }
+
+    private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        result?.let {
+            if (it.resultCode == RESULT_OK) {
+                Log.d("TAG", "${it.data?.getStringExtra("Test")}")
             }
         }
-
-        binding.btDecryptWithBio.setOnClickListener {
-            viewModel.startDecryptAuth(getBioEncryptText(), this) {
-                binding.tvBioDecryptOutput.text = it
-            }
-        }
     }
 
-    private fun getInputText(): String {
-        return binding.etInput.text.toString()
-    }
-
-    private fun getBioInputText(): String {
-        return binding.tvBioEncryptInput.text.toString()
-    }
-
-    private fun getBioEncryptText(): String {
-        return binding.tvBioEncryptOutput.text.toString()
-    }
-
-    private fun getEncryptText(): String {
-        return binding.tvEncryptOutput.text.toString()
-    }
-
-    private fun startToSetBiometric() {
-        val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-            putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
-        }
-//        registerForActivityResult()
-        // Deprecated
-//        startActivityForResult(enrollIntent, 1000)
-    }
 }
